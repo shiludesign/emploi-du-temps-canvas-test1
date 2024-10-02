@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emploi du Temps Canvas</title>
+</head>
+<body>
+    <canvas id="emploiDuTempsCanvas" width="800" height="600" style="border:1px solid #000000;"></canvas>
+    
+    <script>
+        // Fonction pour dessiner un emploi du temps
+        function dessinerEmploiDuTemps() {
+            const canvas = document.getElementById('emploiDuTempsCanvas');
+            if (canvas.getContext) {
+                const ctx = canvas.getContext('2d');
+
+                // Définir un fond bleu clair pour le canvas entier
+                ctx.fillStyle = "#e0f7ff";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Définir la police et la couleur pour les textes
+                ctx.font = "16px Century";
+                ctx.fillStyle = "#000000";
+
+                // Titre
+                ctx.fillText("Emploi du Temps - Semaine 1", 20, 40);
+
+                // Définir les créneaux horaires et les jours
+                const jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
+                const heures = ["08:00 - 10:00", "10:15 - 12:15", "13:00 - 15:00", "15:15 - 17:00"];
+                const matieres = [
+                    ["Mathématiques", "Physique", "Chimie", "Anglais"],
+                    ["Français", "Histoire", "Mathématiques", "Sport"],
+                    ["Physique", "Chimie", "Arts", "Musique"],
+                    ["Mathématiques", "Anglais", "Informatique", "Physique"],
+                    ["Français", "Histoire", "Sport", "Mathématiques"]
+                ];
+
+                // Coordonnées de base
+                const topOffset = 80;
+                const leftOffset = 20;
+                const rowHeight = 50;
+                const colWidth = 150;
+
+                // Dessiner les jours de la semaine en haut
+                ctx.font = "bold 14px Century";
+                for (let j = 0; j < jours.length; j++) {
+                    ctx.fillText(jours[j], leftOffset + j * colWidth + 10, topOffset - 20);
+                }
+
+                // Dessiner les créneaux horaires et les matières
+                ctx.font = "14px Century";
+                for (let i = 0; i < heures.length; i++) {
+                    // Afficher l'heure sur la gauche
+                    ctx.fillText(heures[i], leftOffset - 100, topOffset + i * rowHeight + 30);
+
+                    // Dessiner les matières pour chaque jour
+                    for (let j = 0; j < jours.length; j++) {
+                        ctx.fillStyle = "#0000FF"; // Fond bleu
+                        ctx.fillRect(leftOffset + j * colWidth, topOffset + i * rowHeight, colWidth - 10, rowHeight - 10);
+
+                        // Ajouter le texte de la matière
+                        ctx.fillStyle = "#FFFFFF"; // Texte en blanc pour contraster
+                        ctx.fillText(matieres[j][i % matieres[j].length], leftOffset + j * colWidth + 10, topOffset + i * rowHeight + 30);
+                    }
+                }
+            } else {
+                alert("Votre navigateur ne supporte pas l'élément HTML Canvas.");
+            }
+        }
+
+        // Appel de la fonction de dessin après le chargement de la page
+        dessinerEmploiDuTemps();
+    </script>
+</body>
+</html>
